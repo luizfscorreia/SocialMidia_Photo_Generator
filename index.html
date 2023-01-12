@@ -420,39 +420,44 @@
 
             document.getElementById("loadingContainer").style.display = 'flex'
 
-            container.style.width = '1000px'
-            cover.style.width = '1000px'
-            cover.style.height = '1000px'
-            textContainer.style.width = '400px'
-            textContainer.style.maxWidth = '400px'
-            userNameText.style.fontSize = '70px'
-            userDescriptionText.style.fontSize = '40px'
+        container.style.width = '1000px'
+        cover.style.width = '1000px'
+        cover.style.height = '1000px'
+        textContainer.style.width = '400px'
+        textContainer.style.maxWidth = '400px'
+        userNameText.style.fontSize = '70px'
+        userNameText.style.lineHeight='60px'
+        userDescriptionText.style.fontSize = '40px'
+        userDescriptionText.style.lineHeight = '60px'
 
-            imageBuild.disabled = true
-            imageBuild.innerText = "Gerando Imagem"
-            
-            await domtoimage.toPng(crop, {width: '1000', height: '1000'}).then(function (dataUrl) {})
+        imageBuild.disabled = true
+        imageBuild.innerText = "Gerando Imagem"
+        
+        await domtoimage.toPng(crop, {width: '1000', height: '1000'}).then(function (dataUrl) {})
 
-            await domtoimage.toPng(crop, {width: '1000', height: '1000'}).then(function (dataUrl) {
-                var img = new Image()
-                img.src = dataUrl
-                img.id = 'final'
-                img.style.display = 'none'
-                img.onload = () => {
-                    document.body.appendChild(img)
-                }
-            })
+        await domtoimage.toPng(crop, {width: '1000', height: '1000'}).then(function (dataUrl) {
+            var img = new Image()
+            img.src = dataUrl
+            img.id = 'final'
+            img.style.display = 'none'
+            img.onload = () => {
+                document.body.appendChild(img)
+            }
+        })
 
 
-            // Reset view sizes
+        // Reset view sizes
 
-            container.style.width = actualSize + 'px'
-            cover.style.width = actualSize + 'px'
-            cover.style.height = actualSize + 'px'
+        container.style.width = actualSize + 'px'
+        cover.style.width = actualSize + 'px'
+        cover.style.height = actualSize + 'px'
 
-            textContainer.style.width = textContainerActual + 'px'
-            userNameText.style.fontSize = userNameActualSize
-            userDescriptionText.style.fontSize = userDescriptionActualSize
+        textContainer.style.width = textContainerActual + 'px'
+        userNameText.style.fontSize = userNameActualSize
+        userNameText.style.lineHeight='40px'
+        userDescriptionText.style.lineHeight = '40px'
+        userDescriptionText.style.fontSize = userDescriptionActualSize
+
 
             await setTimeout(() => {
                 document.getElementById("loadingContainer").style.display = 'none'

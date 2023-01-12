@@ -154,7 +154,9 @@
         textContainer.style.width = '400px'
         textContainer.style.maxWidth = '400px'
         userNameText.style.fontSize = '70px'
+        userNameText.style.lineHeight='60px'
         userDescriptionText.style.fontSize = '40px'
+        userDescriptionText.style.lineHeight = '60px'
 
         imageBuild.disabled = true
         imageBuild.innerText = "Gerando Imagem"
@@ -180,6 +182,8 @@
 
         textContainer.style.width = textContainerActual + 'px'
         userNameText.style.fontSize = userNameActualSize
+        userNameText.style.lineHeight='40px'
+        userDescriptionText.style.lineHeight = '40px'
         userDescriptionText.style.fontSize = userDescriptionActualSize
 
         await setTimeout(() => {
