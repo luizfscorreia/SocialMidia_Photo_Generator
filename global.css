@@ -1,0 +1,405 @@
+body{
+    background-color: black;
+}#head{
+    background-color: #2E343A;
+    width: 100%;
+    color: whitesmoke;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+#container{
+    width: 600px;
+    aspect-ratio: 1/1;
+    margin: 0 auto;
+    background-color: blue;
+}
+
+@media screen and (max-width: 500px) {
+    #container{
+        width: 100% ; 
+    }
+}
+
+/* ///////// Photo Area ///////// */
+#activeArea{
+    position:relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+#overlay{
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    align-self: center;
+    z-index: 99999;
+    background-color: #1C1C1C;
+    color: white;
+    padding: 60px;
+    gap: 30px;
+    text-align: center;
+}
+@media screen and (max-width: 500px) {
+    #overlay{
+        width: 100% !important;
+        padding: 20px;
+        gap: 20px;
+    }
+    #overlay label{
+        padding: 20px 0 !important;
+    }
+  }
+
+#overlay label{
+    display: flex;
+    width: 300px;
+    padding: 50px 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    color: blue;
+    border-radius: 10px;
+    font-size: 15px;
+}
+#overlay svg{
+    margin-bottom: 30px;
+}
+
+#overlay input{
+    width: 280px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    color: darkslategray;
+    border-radius: 10px;
+
+}
+#crop{
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: absolute;
+    background-color: black;
+}
+/* Text styles */
+#textContainer{
+    position: absolute;
+    /* top: 320px;
+    left: 50px; */
+    top: 50%;
+    left: 10%;
+    max-width: 200px;
+}
+
+#userName{
+    color: white;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#userDescription{
+    color: white;
+    margin-top: 10px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (max-width: 450px) {
+    #textContainer{
+        max-width: 100px;
+    }
+    #userName{
+        font-size: 20px;
+    }
+    
+    #userDescription{
+        font-size: 15px;
+    }
+  }
+
+#overflowBorder{
+    position: absolute;
+    z-index: 9999;
+}
+#overflowBorder img{
+    opacity: 1;
+    aspect-ratio: 1/1;
+}
+
+#userPhoto{
+    position: absolute;
+}
+
+/* Global controlls styles */
+#controlls{
+    display: flex;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    /* top: 100%; */
+    background-color: #3E5771;
+    /* position: relative; */
+}
+
+@media screen and (max-width: 500px) {
+    #controlls{
+        width: 100% !important;
+        padding: 10px;
+    }
+  }
+
+/*  Main Menu */
+#ctrlMainMenu{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#ctrlMainMenuLeft{
+    display: flex;
+    gap: 20px;
+}
+
+@media screen and (max-width: 400px) {
+    #ctrlMainMenu{
+        justify-content: center;
+    }
+    #ctrlMainMenuLeft{
+        margin-bottom: 10px
+    }
+  }
+
+#ctrlImageMenu{
+    display: flex;
+    flex: 1;
+    gap: 20px;
+}
+
+#ctrlImageMenuRight{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+#ctrlImageMenuRight label{
+    max-width: 200px;
+    text-align: center;
+    color: darkcyan;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+/* Edit Photo Position Menu */
+#ctrlEditMenu{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+}
+.ctrlEditMenuColumns{
+    display: flex;
+    vertical-align: middle;
+    gap: 20px;
+}
+#ctrlEditMenuContainer{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 100%;
+}
+.ctrlEditMenuColumns:first-child{
+    margin-bottom: 20px;
+}
+.ctrlEditMenuColumnsSliders svg{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #1F2B39;
+    color: white;
+    margin-right: 5px;
+}
+.ctrlEditMenuColumns input{
+    width: calc( 100% - (55px));
+}
+.ctrlEditMenuColumnsSliders{
+    flex-direction: column;
+    flex: 3;
+}
+.ctrlEditMenu{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    #ctrlEditMenu{
+        flex-direction: row;
+        gap: 0px;
+    }
+    #ctrlEditMenuContainer{
+        flex-direction: column;
+    }
+    .ctrlEditMenuColumns:first-child{
+        margin-right: 0px;
+        margin-bottom: 20px;
+    }
+  }
+
+#ctrlFilterMenu{
+    flex: 1;
+}
+
+
+
+
+#ctrlFilterMenuRight{
+    display: flex;
+    flex:1;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#ctrlDataMenu{
+    flex: 1;
+}
+
+#ctrlDataMenu input{
+    width: 35%;
+    padding: 10px;
+    font-size: 12px;
+    border: none;
+    color: darkslategray;
+    border-radius: 10px;
+}
+
+#ctrlDataMenuRight{
+    display: flex;
+    flex:1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    
+    gap: 20px;
+}
+
+/* Image Generator Cover */
+#loadingContainer{
+    position: fixed;
+    z-index: 99999999999;
+    flex-direction: row;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1F2B39;
+    color: white;
+}
+
+.loader {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .loader::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+    border-radius: 50%;
+    border-top: 12px solid rgba(255, 255, 255, 0.2);
+    border-right: 12px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 12px solid rgba(255, 255, 255, 0.2);
+    border-left: 12px solid #0080FF;
+    transform: translateZ(0);
+    animation: load 1.2s infinite linear;
+  }
+  @keyframes load {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+/* Filters */
+
+.grayscale{
+    filter: grayscale(100%);
+}
+
+.sepia{
+    filter: sepia(1);
+}
+
+/* Inputs, Buttons, Labels and SVG Buttons */
+.actionButton{
+    height: 50px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #0080FF;
+    color: white;
+    border: none;
+}
+.actionButton svg{
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.darkButton{
+    background-color: #1F2B39 !important;
+}
+
+.labelSvg svg{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #1F2B39;
+    color: white;
+    margin-right: 5px;
+}
+
+input[type="range"] {
+    -webkit-appearance:none !important;
+    height: 20px;
+    background: #0080FF;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 30px;
+    height:30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: white;
+}

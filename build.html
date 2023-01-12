@@ -1,0 +1,667 @@
+   <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+        <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js" integrity="sha512-01CJ9/g7e8cUmY0DFTMcUw/ikS799FHiOA0eyHsUWfOetgbx/t6oV4otQ5zXKQyIrQGTHSmRVPIgrgLcZi/WMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </head>
+<style>
+#head{
+    background-color: #2E343A;
+    width: 100%;
+    color: whitesmoke;
+    font-size: 15px;
+    font-weight: normal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+#container{
+    width: 600px;
+    aspect-ratio: 1/1;
+    margin: 0 auto;
+    background-color: blue;
+}
+
+@media screen and (max-width: 500px) {
+    #container{
+        width: 100% ; 
+    }
+}
+
+/* ///////// Photo Area ///////// */
+#activeArea{
+    position:relative;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+#overlay{
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-between;
+    align-self: center;
+    z-index: 99999;
+    background-color: #1C1C1C;
+    color: white;
+    padding: 60px;
+    gap: 30px;
+    text-align: center;
+}
+@media screen and (max-width: 500px) {
+    #overlay{
+        width: 100% !important;
+        padding: 20px;
+        gap: 20px;
+    }
+    #overlay label{
+        padding: 20px 0 !important;
+    }
+  }
+
+#overlay label{
+    display: flex;
+    width: 300px;
+    padding: 50px 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    color: blue;
+    border-radius: 10px;
+    font-size: 15px;
+}
+#overlay svg{
+    margin-bottom: 30px;
+}
+
+#overlay input{
+    width: 280px;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    color: darkslategray;
+    border-radius: 10px;
+
+}
+#crop{
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1/1;
+    position: absolute;
+    background-color: black;
+}
+/* Text styles */
+#textContainer{
+    position: absolute;
+    /* top: 320px;
+    left: 50px; */
+    top: 50%;
+    left: 10%;
+    max-width: 200px;
+}
+
+#userName{
+    color: white;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#userDescription{
+    color: white;
+    margin-top: 10px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@media screen and (max-width: 450px) {
+    #textContainer{
+        max-width: 100px;
+    }
+    #userName{
+        font-size: 20px;
+    }
+    
+    #userDescription{
+        font-size: 15px;
+    }
+  }
+
+#overflowBorder{
+    position: absolute;
+    z-index: 9999;
+}
+#overflowBorder img{
+    opacity: 1;
+    aspect-ratio: 1/1;
+}
+
+#userPhoto{
+    position: absolute;
+}
+
+/* Global controlls styles */
+#controlls{
+    display: flex;
+    width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    /* top: 100%; */
+    background-color: #3E5771;
+    /* position: relative; */
+}
+
+@media screen and (max-width: 500px) {
+    #controlls{
+        width: 100% !important;
+        padding: 10px;
+    }
+  }
+
+/*  Main Menu */
+#ctrlMainMenu{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+#ctrlMainMenuLeft{
+    display: flex;
+    gap: 20px;
+}
+
+@media screen and (max-width: 400px) {
+    #ctrlMainMenu{
+        justify-content: center;
+    }
+    #ctrlMainMenuLeft{
+        margin-bottom: 10px
+    }
+  }
+
+#ctrlImageMenu{
+    display: flex;
+    flex: 1;
+    gap: 20px;
+}
+
+#ctrlImageMenuRight{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+#ctrlImageMenuRight label{
+    max-width: 200px;
+    text-align: center;
+    color: darkcyan;
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+/* Edit Photo Position Menu */
+#ctrlEditMenu{
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+}
+.ctrlEditMenuColumns{
+    display: flex;
+    vertical-align: middle;
+    gap: 20px;
+}
+#ctrlEditMenuContainer{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: 100%;
+}
+.ctrlEditMenuColumns:first-child{
+    margin-bottom: 20px;
+}
+.ctrlEditMenuColumnsSliders svg{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #1F2B39;
+    color: white;
+    margin-right: 5px;
+}
+.ctrlEditMenuColumns input{
+    width: calc( 100% - (55px));
+}
+.ctrlEditMenuColumnsSliders{
+    flex-direction: column;
+    flex: 3;
+}
+.ctrlEditMenu{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    #ctrlEditMenu{
+        flex-direction: row;
+        gap: 0px;
+    }
+    #ctrlEditMenuContainer{
+        flex-direction: column;
+    }
+    .ctrlEditMenuColumns:first-child{
+        margin-right: 0px;
+        margin-bottom: 20px;
+    }
+  }
+
+#ctrlFilterMenu{
+    flex: 1;
+}
+
+
+
+
+#ctrlFilterMenuRight{
+    display: flex;
+    flex:1;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#ctrlDataMenu{
+    flex: 1;
+}
+
+#ctrlDataMenu input{
+    width: 35%;
+    padding: 10px;
+    font-size: 12px;
+    border: none;
+    color: darkslategray;
+    border-radius: 10px;
+}
+
+#ctrlDataMenuRight{
+    display: flex;
+    flex:1;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    
+    gap: 20px;
+}
+
+/* Image Generator Cover */
+#loadingContainer{
+    position: fixed;
+    z-index: 99999999999;
+    flex-direction: row;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1F2B39;
+    color: white;
+}
+
+.loader {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    font-size: 20px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .loader::after {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -40px;
+    right: -40px;
+    bottom: -40px;
+    border-radius: 50%;
+    border-top: 12px solid rgba(255, 255, 255, 0.2);
+    border-right: 12px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 12px solid rgba(255, 255, 255, 0.2);
+    border-left: 12px solid #0080FF;
+    transform: translateZ(0);
+    animation: load 1.2s infinite linear;
+  }
+  @keyframes load {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+/* Filters */
+
+.grayscale{
+    filter: grayscale(100%);
+}
+
+.sepia{
+    filter: sepia(1);
+}
+
+/* Inputs, Buttons, Labels and SVG Buttons */
+.actionButton{
+    height: 50px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #0080FF;
+    color: white;
+    border: none;
+}
+.actionButton svg{
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.darkButton{
+    background-color: #1F2B39 !important;
+}
+
+.labelSvg svg{
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    padding: 5px;
+    background-color: #1F2B39;
+    color: white;
+    margin-right: 5px;
+}
+
+input[type="range"] {
+    -webkit-appearance:none !important;
+    height: 20px;
+    background: #0080FF;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    width: 30px;
+    height:30px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+    background: white;
+}
+        </style>
+   </head>
+    
+    <div id="loadingContainer" style="display: none;">
+        <div class="loader">Gerando<br/> Imagem</div>
+    </div>
+    <div id="container">
+        <div id="head">Insira seus dados e escolha uma foto</div>
+        <div id="activeArea">
+            <div id="crop">
+                <div id="overlay">
+                    <input id="name" type="text" placeholder="Seu Nome">
+                    <input id= "role" type="text" placeholder="Qual cargo você ocupa?">
+                    <input name="file" id="file" type="file" accept="image/png, image/jpeg" hidden>
+                    <label id="filelabel" for="file" >
+                        <svg id="collection-tour" xmlns="http://www.w3.org/2000/svg" width="72.497" height="60.678" viewBox="0 0 72.497 60.678">
+                            <path id="Caminho_321" data-name="Caminho 321" d="M111.72,59.278,78.135,53.356a.493.493,0,0,1-.345-.6l5.892-33.413a.493.493,0,0,1,.53-.446L117.8,24.819a.493.493,0,0,1,.345.6l-5.892,33.413A.493.493,0,0,1,111.72,59.278Z" transform="translate(-46.619 -11.323)" fill="none" stroke="#b3b3fc" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" stroke-dasharray="11.385 11.385" fill-rule="evenodd"/>
+                            <path id="Caminho_322" data-name="Caminho 322" d="M63.488,60,18.4,67.949a.663.663,0,0,1-.711-.6L9.783,22.5a.662.662,0,0,1,.463-.806l45.084-7.95a.661.661,0,0,1,.71.6L63.95,59.195a.662.662,0,0,1-.463.805Z" transform="translate(-5.856 -8.232)" fill="#fff" stroke="#b3b3fc" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.9" stroke-dasharray="11.385 11.385" fill-rule="evenodd"/>
+                            <g id="Grupo_111" data-name="Grupo 111" transform="translate(17.108 20.579)">
+                              <path id="Caminho_323" data-name="Caminho 323" d="M82.362,67.585a2.858,2.858,0,0,0-2.612.27,2.675,2.675,0,0,0-.78,3.206,2.411,2.411,0,0,0,3.093,1.515A2.789,2.789,0,0,0,83.6,69.241a2.276,2.276,0,0,0-1.242-1.656" transform="translate(-64.31 -60.969)" fill="#8080f1" fill-rule="evenodd"/>
+                              <path id="Caminho_324" data-name="Caminho 324" d="M68.207,69.62a39.021,39.021,0,0,0-4.9-4.848.6.6,0,0,0-.852.151l-2.52,3.515c-.136.19-.907,1.6-1.145,1.6-.273-.006-1.458-1.508-1.651-1.715l-5.882-6.332a.607.607,0,0,0-1.041.183c-1.579,3.369-2.125,7.17-2.842,10.976L44.523,56.979s14.531-2.618,21.034-3.786C66.5,58.8,67.63,63.965,68.207,69.62m1.988,1.641c0-.043-2.059-12.917-3.154-19.314a.58.58,0,0,0-.5-.509.561.561,0,0,0-.386-.06l-21.666,3.89a.5.5,0,0,0-.075.022l-1.226.216a.592.592,0,0,0-.472.72.689.689,0,0,0,.009.165l3.491,19.8c.048.27.5.158.768.112C51.933,75.445,62,73.823,70,72.258c.39-.139.194-1,.193-1" transform="translate(-42.703 -51.367)" fill="#8080f1" fill-rule="evenodd"/>
+                            </g>
+                            <g id="Grupo_112" data-name="Grupo 112" transform="translate(56.67)">
+                              <path id="Caminho_325" data-name="Caminho 325" d="M144.938,5.238c1.75-.7,1.65-4.8,1.455-5.238-.71.568-1.455,5.238-1.455,5.238" transform="translate(-143.543)" fill="#c7ebff" fill-rule="evenodd"/>
+                              <path id="Caminho_326" data-name="Caminho 326" d="M146.121,6.2c-.5-1.258-4.407-1.424-4.654-1.252s3.548,1.535,4.654,1.252" transform="translate(-141.455 -2.932)" fill="#c7ebff" fill-rule="evenodd"/>
+                            </g>
+                            <g id="Grupo_113" data-name="Grupo 113" transform="translate(0 46.021)">
+                              <path id="Caminho_327" data-name="Caminho 327" d="M0,119.874c1.431,1.223,5.011-.78,5.312-1.158C4.478,118.353,0,119.873,0,119.873" transform="translate(0 -117.143)" fill="#c7ebff" fill-rule="evenodd"/>
+                              <path id="Caminho_328" data-name="Caminho 328" d="M6.464,119.577c.878-1.031-.8-4.562-1.066-4.7s.3,3.854,1.066,4.7" transform="translate(-3.195 -114.873)" fill="#c7ebff" fill-rule="evenodd"/>
+                            </g>
+                            <g id="Grupo_114" data-name="Grupo 114" transform="translate(63.517 53.931)">
+                              <path id="Caminho_329" data-name="Caminho 329" d="M158.916,138.979c1.883-.017,3.269-3.878,3.247-4.36-.867.274-3.247,4.36-3.247,4.36" transform="translate(-158.768 -134.619)" fill="#c7ebff" fill-rule="evenodd"/>
+                              <path id="Caminho_330" data-name="Caminho 330" d="M162.455,139.6c-.014-1.354-3.6-2.918-3.889-2.846s2.755,2.712,3.889,2.846" transform="translate(-158.546 -135.898)" fill="#c7ebff" fill-rule="evenodd"/>
+                            </g>
+                          </svg>
+                          
+                        Escolha uma foto
+                    </label>
+                </div>
+                <div id="overflowBorder">
+                    <div id="textContainer">
+                        <div id="userName"> </div>
+                        <div id="userDescription"></div>
+                    </div>
+                    <img id="cover" src="https://i.ibb.co/vq7rFy9/hrtborder.png" alt="" height="600px" width="600px">
+                </div>
+                <img id="userPhoto" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div id="controlls" style="visibility: hidden;" >
+        <div id="ctrlMainMenu" >
+            <div id="ctrlMainMenuLeft">
+                <button id="changePhoto" class="actionButton" >
+                    <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 4c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm11 9l-3-3-6 6h16l-5-5-2 2zm4-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                </button>
+
+                <button id="dataMode" class="actionButton">
+                    <svg viewBox="5 4 15 15" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="M17,6H7A1,1,0,0,0,7,8h4v9a1,1,0,0,0,2,0V8h4a1,1,0,0,0,0-2Z"/></svg>
+                </button>
+
+                <button id="editMode" class="actionButton">
+                    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6 11.1707L6 4C6 3.44771 5.55228 3 5 3C4.44771 3 4 3.44771 4 4L4 11.1707C2.83481 11.5825 2 12.6938 2 14C2 15.3062 2.83481 16.4175 4 16.8293L4 20C4 20.5523 4.44772 21 5 21C5.55228 21 6 20.5523 6 20L6 16.8293C7.16519 16.4175 8 15.3062 8 14C8 12.6938 7.16519 11.5825 6 11.1707ZM5 13C4.44772 13 4 13.4477 4 14C4 14.5523 4.44772 15 5 15C5.55228 15 6 14.5523 6 14C6 13.4477 5.55228 13 5 13Z" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19 21C18.4477 21 18 20.5523 18 20L18 18C18 17.9435 18.0047 17.8881 18.0137 17.8341C16.8414 17.4262 16 16.3113 16 15C16 13.6887 16.8414 12.5738 18.0137 12.1659C18.0047 12.1119 18 12.0565 18 12L18 4C18 3.44771 18.4477 3 19 3C19.5523 3 20 3.44771 20 4L20 12C20 12.0565 19.9953 12.1119 19.9863 12.1659C21.1586 12.5738 22 13.6887 22 15C22 16.3113 21.1586 17.4262 19.9863 17.8341C19.9953 17.8881 20 17.9435 20 18V20C20 20.5523 19.5523 21 19 21ZM18 15C18 14.4477 18.4477 14 19 14C19.5523 14 20 14.4477 20 15C20 15.5523 19.5523 16 19 16C18.4477 16 18 15.5523 18 15Z" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 9C9 7.69378 9.83481 6.58254 11 6.17071V4C11 3.44772 11.4477 3 12 3C12.5523 3 13 3.44772 13 4V6.17071C14.1652 6.58254 15 7.69378 15 9C15 10.3113 14.1586 11.4262 12.9863 11.8341C12.9953 11.8881 13 11.9435 13 12L13 20C13 20.5523 12.5523 21 12 21C11.4477 21 11 20.5523 11 20L11 12C11 11.9435 11.0047 11.8881 11.0137 11.8341C9.84135 11.4262 9 10.3113 9 9ZM11 9C11 8.44772 11.4477 8 12 8C12.5523 8 13 8.44772 13 9C13 9.55229 12.5523 10 12 10C11.4477 10 11 9.55229 11 9Z" />
+                        </svg>
+                        
+                      
+                </button>
+
+                <button id="filterMode" class="actionButton">
+                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+               <path d="M391.3,213.4C343.4,134.8,296.4,106.7,258.5,0c-38.1,106.7-84.9,134.8-132.8,213.4c-43.3,71-56.9,170.7,0,234.7
+                   c37.9,42.7,76,64.1,132.8,63.9c57.1,0.2,94.9-21.2,132.8-63.9C448.2,384.1,434.6,284.4,391.3,213.4z"/>
+               </svg>
+               
+                </button>
+            </div>
+
+            <div id="ctrlMainMenuRight">
+                <button id="imageBuild" class="actionButton" onclick="build()">
+                    Baixar Imagem
+                </button>
+            </div>
+        </div>
+
+        <div id="ctrlImageMenu" style="display: none;">
+            <div id="ctrlImageMenuLeft">
+                <button class="actionButton" onclick="returnMenu()">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="30.02px" height="30.02px" viewBox="0 0 30.02 30.02" style="enable-background:new 0 0 30.02 30.02;" xml:space="preserve"
+                   >
+                   <path d="M22.735,23.43c1.43,1.686,1.224,4.209-0.46,5.64c-0.753,0.641-1.674,0.95-2.587,0.95c-1.136,0-2.261-0.479-3.052-1.41
+                       L7.286,17.6c-1.269-1.493-1.269-3.688,0-5.179l9.351-11.01c1.431-1.684,3.953-1.889,5.639-0.459c1.684,1.43,1.89,3.954,0.46,5.638
+                       l-7.152,8.42L22.735,23.43z"/>
+               </svg>
+                </button>  
+
+
+            </div>
+            
+            <div id="ctrlImageMenuRight">
+                <label for="changeImage"> Escolha uma Imagem </label>
+                <input name="file" id="changeImage" onchange="uploadImagem(event)" type="file" accept="image/png, image/jpeg" hidden>
+            </div>
+        </div>
+        
+        <div id="ctrlDataMenu" style="display: none;">
+            <div id="ctrlDataMenuLeft">
+                <button class="actionButton" onclick="returnMenu()">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="30.02px" height="30.02px" viewBox="0 0 30.02 30.02" style="enable-background:new 0 0 30.02 30.02;" xml:space="preserve"
+                   >
+                   <path d="M22.735,23.43c1.43,1.686,1.224,4.209-0.46,5.64c-0.753,0.641-1.674,0.95-2.587,0.95c-1.136,0-2.261-0.479-3.052-1.41
+                       L7.286,17.6c-1.269-1.493-1.269-3.688,0-5.179l9.351-11.01c1.431-1.684,3.953-1.889,5.639-0.459c1.684,1.43,1.89,3.954,0.46,5.638
+                       l-7.152,8.42L22.735,23.43z"/>
+               </svg>
+                </button>  
+
+
+            </div>
+            
+            <div id="ctrlDataMenuRight">
+                
+                <input id="newName" type="text" placeholder="Qual seu nome?">
+                <input id="newDesc" type="text" placeholder="Qual cargo ocupa?">
+
+
+                <button id="dataApply" class="actionButton" onclick="renderText(document.getElementById('newName').value, document.getElementById('newDesc').value)">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="405.272px" height="405.272px" viewBox="0 0 405.272 405.272" style="enable-background:new 0 0 405.272 405.272;"
+                    xml:space="preserve">
+               
+                    <path d="M393.401,124.425L179.603,338.208c-15.832,15.835-41.514,15.835-57.361,0L11.878,227.836
+                       c-15.838-15.835-15.838-41.52,0-57.358c15.841-15.841,41.521-15.841,57.355-0.006l81.698,81.699L336.037,67.064
+                       c15.841-15.841,41.523-15.829,57.358,0C409.23,82.902,409.23,108.578,393.401,124.425z"/>
+               
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div id="ctrlEditMenu" style="display: none;">
+            <div class="ctrlEditMenuColumns">
+                <button id="returnMenu" style="margin-right: 20px;" class="actionButton" onclick="returnMenu()">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="30.02px" height="30.02px" viewBox="0 0 30.02 30.02" style="enable-background:new 0 0 30.02 30.02;" xml:space="preserve"
+                   >
+                   <path d="M22.735,23.43c1.43,1.686,1.224,4.209-0.46,5.64c-0.753,0.641-1.674,0.95-2.587,0.95c-1.136,0-2.261-0.479-3.052-1.41
+                       L7.286,17.6c-1.269-1.493-1.269-3.688,0-5.179l9.351-11.01c1.431-1.684,3.953-1.889,5.639-0.459c1.684,1.43,1.89,3.954,0.46,5.638
+                       l-7.152,8.42L22.735,23.43z"/>
+               </svg>
+                </button>
+            </div>
+            <div id="ctrlEditMenuContainer">
+                <div class="ctrlEditMenuColumns ctrlEditMenuColumnsSliders">
+                    <div class="controllOptionsRow">
+                        <label for="up">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <polyline points="8 18 12 22 16 18" />
+                                <polyline points="8 6 12 2 16 6" />
+                                <line x1="12" y1="2" x2="12" y2="22" />
+                            </svg>
+
+                        </label>
+                        <input id="up" type="range" value="0" min="-100" max="100">
+                    </div>
+                    <div class="controllOptionsRow">
+                        
+                        <label for="left">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                >
+                                <polyline points="18 8 22 12 18 16" />
+                                <polyline points="6 8 2 12 6 16" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                            </svg>
+
+                        </label>
+                        <input id="left" type="range" value="0" min="-100" max="100">
+                    </div>  
+                </div>
+            
+
+            <div class="ctrlEditMenuColumns ctrlEditMenuColumnsSliders">
+                <div class="controllOptionsRow">
+                    <label for="rotate">
+                        <svg  width="24px" height="24px" viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg" aria-labelledby="rotateIconTitle" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" color="#000000"> <title id="rotateIconTitle">Rotate</title> <path d="M22 12l-3 3-3-3"/> <path d="M2 12l3-3 3 3"/> <path d="M19.016 14v-1.95A7.05 7.05 0 0 0 8 6.22"/> <path d="M16.016 17.845A7.05 7.05 0 0 1 5 12.015V10"/> <path stroke-linecap="round" d="M5 10V9"/> <path stroke-linecap="round" d="M19 15v-1"/> </svg>
+                    </label>
+                    <input id="rotate" type="range" value="0" min="-180" max="180">
+                </div>
+                <div class="controllOptionsRow">
+                    <label for="zoom">
+                        <svg width="512px" height="512px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="var(--ci-primary-color, currentColor)" d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z" class="ci-primary"/>
+                        </svg>
+                        
+                    </label>
+                    <input id="zoom" type="range" value="1" min="0.1" max="2" step="0.10">
+                </div>
+            </div> 
+        </div>
+        </div>
+
+        <div id="ctrlFilterMenu" style="display: none;">
+            <div id="ctrlFilterMenuLeft">
+                <button id="changePhoto" class="actionButton" onclick="returnMenu()">
+                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                    width="30.02px" height="30.02px" viewBox="0 0 30.02 30.02" style="enable-background:new 0 0 30.02 30.02;" xml:space="preserve"
+                   >
+                   <path d="M22.735,23.43c1.43,1.686,1.224,4.209-0.46,5.64c-0.753,0.641-1.674,0.95-2.587,0.95c-1.136,0-2.261-0.479-3.052-1.41
+                       L7.286,17.6c-1.269-1.493-1.269-3.688,0-5.179l9.351-11.01c1.431-1.684,3.953-1.889,5.639-0.459c1.684,1.43,1.89,3.954,0.46,5.638
+                       l-7.152,8.42L22.735,23.43z"/>
+               </svg>
+                </button>  
+
+
+            </div>
+
+            <div id="ctrlFilterMenuRight">
+
+                <button id="removeFilter" class="actionButton darkButton" onclick="applyFilter('none')">
+                    Normal
+                </button>
+
+                <button id="filterBW" class="actionButton darkButton" onclick="applyFilter('grayscale')">
+                    Preto/Branco
+                </button>
+
+                <button id="filterSpeia" class="actionButton darkButton" onclick="applyFilter('sepia')">
+                    Sépia
+                </button>
+            </div>
+        </div>
+     
+    </div>
+
